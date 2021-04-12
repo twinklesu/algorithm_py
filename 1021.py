@@ -1,35 +1,36 @@
-class Queue():
-    def __init__(self, n):
-        self.q = list(range(1, n+1))
-        self.length = n
-    def pop_first(self):
-        self.q.pop(0)
-        self.length -=1
-    def toLeft(self):
-        self.q.append(self.q.pop(0))
-    def toRight(self):
-        self.q.insert(0, self.q.pop())
+from collections import deque
 
 n, m = map(int, input().split())
-want = list(map(int, input().split()))
-check = Queue(0)
-check.q = [None]*n
-check.length = n
-for k in want:
-    check.q[k-1] = k
-number = Queue(n)
+target = list(map(int, input().split()))
+
 count = 0
-while want:
-    if check.q[0] == want[0]:
-        want.pop(0)
-        check.pop_first()
-        number.pop_first()
-    elif check.q.index(want[0]) < check.length/2:
-        check.toLeft()
-        number.toLeft()
-        count +=1
+deq = deque(range(1, n+1))
+
+for t in target:
+    # from front
+    count_left = 0
+    deq_left = deq.copy()
+    left = deq_left.popleft()
+    while left != t:
+        count_left += 1
+        deq_left.append(left)
+        left = deq_left.popleft()
+    # from tail
+    count_right = 0
+    deq_right = deq.copy()
+    right = deq_right.pop()
+    while right != t:
+        count_right += 1
+        deq_right.appendleft(right)
+        right = deq_right.pop()
+    count_right += 1
+
+    if count_left <= count_right:
+        count += count_left
+        deq = deq_left
     else:
-        check.toRight()
-        number.toRight()
-        count +=1
+        count += count_right
+        deq = deq_right
+
 print(count)
+
