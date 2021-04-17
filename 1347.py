@@ -1,55 +1,55 @@
+from collections import deque
 n = int(input())
-move = list(map(str, input().split('F')))
-move = move[:-1]
+move = list(map(str, input()))
 
-
-arrow = 'S'
-now = (0,0)
-went = set()
-went.add(now)
-row = set()
-col = set()
-row.add(0)
-col.add(0)
+directions = deque(['S', 'E', 'N', 'W'])
+x = 0
+y = 0
+beenTo = set()
+beenTo.add((x, y))
+xSet = set()
+ySet = set()
+xSet.add(x)
+ySet.add(y)
 for m in move:
-    if m == 'R' or m == 'LLL':
-        arrow = 'W'
-    elif m == 'RR' or m == 'LL':
-        arrow = 'N'
-    elif m == 'RRR' or m == 'L':
-        arrow = 'E'
-    if arrow == 'N':
-        now = (now[0], now[1]+1)
-    elif arrow == 'E':
-        now = (now[0]-1, now[1])
-    elif arrow == 'W':
-        now = (now[0]+1, now[1])
+    if m == 'R':
+        directions.rotate(-1)
+    elif m =='L':
+        directions.rotate(1)
     else:
-        now = (now[0], now[1]-1)
-    went.add(now)
-    row.add(now[0])
-    col.add(now[1])
+        moveTo = directions[0]
+        if moveTo == 'S':
+            y -= 1
+        elif moveTo == 'N':
+            y += 1
+        elif moveTo == 'E':
+            x -= 1
+        else:
+            x += 1
+        beenTo.add((x, y))
+        xSet.add(x)
+        ySet.add(y)
 
-rowN = len(row)
-colN = len(col)
+
+xLen = len(xSet)
+yLen = len(ySet)
+xMin = -min(xSet)
+yMin = -min(ySet)
+
 map_ = []
-for r in range(rowN):
+for _ in range(yLen):
     temp = []
-    for c in range(colN):
+    for _ in range(xLen):
         temp.append('#')
     map_.append(temp)
 
-rowMin = -min(row)
-colMin = -min(col)
-for w in went:
-    x = w[0]+rowMin
-    y = w[1]+colMin
-    map_[x][y] = '.'
-    print(x,y)
-    print(map_)
 
-for m in map_:
-    for p in m:
-        print(p, end='')
+for point in beenTo:
+    xPoint = point[1]+yMin
+    yPoint = point[0] + xMin
+    map_[xPoint][yPoint] = '.'
+
+for i in range(len(map_)-1, -1, -1):
+    for m in map_[i]:
+        print(m, end='')
     print()
-
