@@ -1,20 +1,22 @@
-from collections import deque
+# global
+mem = dict()
+mem[0] = [1,0]
+mem[1] = [0,1]
+
+
+def fib(n):
+    if n in mem:
+        return mem[n]
+    else:
+        n_1 = fib(n-1)
+        n_2 = fib(n-2)
+        mem[n] = [n_1[0]+n_2[0], n_1[1]+n_2[1]]
+        return mem[n]
 
 def solution(n):
-    num = deque()
-    num.append(n)
-    one = 0
-    zero = 0
-    while num:
-        temp = num.popleft()
-        if temp ==0:
-            zero +=1
-        elif temp == 1:
-            one +=1
-        else:
-            num.append(temp-1)
-            num.append(temp-2)
-    print(zero, one)
+    ans = fib(n)
+    print(ans[0], ans[1])
+
 
 def main():
     t = int(input())
