@@ -1,65 +1,43 @@
 from collections import deque
 
-mapp = []
-direction_dict = dict()
-stack = deque()
-n, m = map(int, input().split())
-
-for _ in range(n):
-    mapp.append(list(map(int, input())))
+mapp = dict()
+shortest_path = dict()
+waiting_q = deque()
 
 
-def check(top):
-    # 1은 위, 2는 오른쪽, 3은 아래, 4는 왼쪽
-    direction = direction_dict[top]
-    row = top[0]
-    col = top[1]
-    direction_dict[top] = direction + 1  # 실패든 성공이든 방향은 바꿔주기.
-    if direction == 4: #위
-        if row != 0 and mapp[row - 1][col] != 0:
-            new = (row - 1, col)
-            if new not in stack:
-                direction_dict[new] = 1
-                return new
-        return check(top)
-    elif direction == 2: #오른
-        print(col + 1, m - 1)
-        if col + 1 != m and mapp[row][col + 1] != 0:
-            new = (row, col + 1)
-            if new not in stack:
-                direction_dict[new] = 1
-                return new
-        return check(top)
-    elif direction == 1: #아래
-        if row + 1 != n and mapp[row + 1][col] != 0:
-            new = (row + 1, col)
-            if new not in stack:
-                direction_dict[new] = 1
-                return new
-        return check(top)
-    elif direction == 3: #왼
-        if col != 0 and mapp[row][col - 1] != 0:
-            new = (row, col - 1)
-            if new not in stack:
-                direction_dict[new] = 1
-                return new
-        return check(top)
-    else:  # 가려는 방향이 이미 지나온 길인 경우
-        return
+def solution(point):
+    # 들어온 point의 상하좌우의 shortest_path 확인하고, +1 해준다
+    x, y = map(int, point)
+    points = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)] # mapp 에 있는 좌표만 접근하기 때문에 경계고려 안함
+    path = []
+    for p in points:
+        if p in mapp and mapp[p] == 1:
+            if p in shortest_path:
+                path.append(shortest_path[p])
+            else:
+                if p not in waiting_q:
+                    waiting_q.append(p)
+    shortest_path[point] = 1 + min(path)
 
 
-stack.append((0, 0))
-direction_dict[(0, 0)] = 1  # 위
+def main():
+    n, m = map(int, input().split())
 
-top = stack.popleft()
-while (n - 1, m - 1) != top:
-    result = check(top)
-    if result is None:
-        direction_dict.pop(top)
-        top = stack.pop()
-    else:
-        stack.append(top)
-        top = result
-    print(stack)
-count = len(stack) + 1
-print(count)
+    for i in range(n):
+        temp = list(map(int, input()))
+        for ind, el in enumerate(temp):
+            mapp[(i, ind)] = el
+
+    shortest_path[(0,0)] = 1
+    if mapp[(0,1)] == 1:
+        waiting_q.append((0,1))
+    if mapp[(1,0)] == 1:
+        waiting_q.append((1,0))
+
+
+    while waiting_q:
+        temp = waiting_q.popleft()
+        solution(temp)
+    print(shortest_path[(n-1, m-1)])
+
+main()
