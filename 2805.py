@@ -1,20 +1,33 @@
 import sys
 input = sys.stdin.readline
 
-n, m = map(int, input().rstrip().split())
-tree = list(map(int, input().rstrip().split()))
+# 이분탐색
+# 높이가 0 <= h <= 1,000,000,000 / 높이를 이분탐색
 
-h = max(tree)
-total = 0
 
-li = [0 for _ in range(h)]
-for t in tree:
-    for n in range(t):
-        li[n] += 1
-li.append(0)
-for l in li[::-1]:
-    total += l
-    if total >= m:
-        break
-    h -= 1
-print(h)
+def sumOfTrees(h, trees):
+    totalTree = 0
+    for tree in trees:
+        if tree-h > 0:
+            totalTree += (tree-h)
+    return totalTree
+
+
+def recursion(front, tail, m, trees):
+    mid = (front + tail)//2
+
+    if mid == front:
+        return mid # 수렴
+
+    if sumOfTrees(mid, trees) >= m:
+        return recursion(mid, tail, m, trees)
+    else:
+        return recursion(front, mid, m, trees)
+
+
+def main():
+    n, m = map(int, input().rstrip().split())
+    trees = list(map(int, input().rstrip().split()))
+    print(recursion(0, 10**9, m, trees))
+
+main()
