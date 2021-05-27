@@ -14,6 +14,9 @@ num = list(range(n))
 comb = list(combinations(num, n//2))
 comb = comb[:len(comb)//2]
 
+
+
+
 def diff(arr):
     return abs(arr[0]-arr[1])
 
