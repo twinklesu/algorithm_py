@@ -2,12 +2,14 @@ import sys
 input = sys.stdin.readline
 from collections import deque
 
-left = deque(map(str, input().rstrip()))
+# left = deque(map(str, input().rstrip()))
+left = deque(map(str, input()))
 right = deque()
 n = int(input())
 
 for _ in range(n):
-    move = input().rstrip()
+    # move = input().rstrip()
+    move = input()
     if move == 'L' and left:
         right.appendleft(left.pop())
     elif move == 'D' and right:
