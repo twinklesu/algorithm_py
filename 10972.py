@@ -12,15 +12,11 @@ if cursor is None:
     print(-1)
 else:
     newNumbers = numbers[cursor:]
-    if newNumbers[-1] == min(newNumbers):
-        newNumbers.sort()
-        newNumbers = [newNumbers[-1]] + newNumbers[:-1]
-    else:
-        perm = list(permutations(newNumbers))
-        perm.sort()
-        for p in perm:
-            if list(p) > newNumbers:
-                newNumbers = list(p)
-                break
+    perm = list(permutations(newNumbers))
+    perm.sort()
+    for p in perm:
+        if list(p) > newNumbers:
+            newNumbers = list(p)
+            break
     for num in numbers[:cursor]+newNumbers:
         print(num, end=' ')
