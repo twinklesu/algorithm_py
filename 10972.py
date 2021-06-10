@@ -1,22 +1,22 @@
-from itertools import permutations
 n = int(input())
 numbers = list(map(int, input().split()))
 
-cursor = None
-# 커지기 시작하는 마지막 위치 기록
-for ind, el in enumerate(numbers[:-1]):
-    if el < numbers[ind+1]:
-        cursor = ind
-# 한번도 안커지는,,
-if cursor is None:
+ind = n
+for i in range(n-2, -1, -1):
+    if numbers[i] < numbers[i+1]:
+        ind = i
+        break
+
+
+if ind == n:
     print(-1)
 else:
-    newNumbers = numbers[cursor:]
-    perm = list(permutations(newNumbers))
-    perm.sort()
-    for p in perm:
-        if list(p) > newNumbers:
-            newNumbers = list(p)
+    change_target = 10  # 뒤부터 ind까지 중 큰 수
+    for i in range(n-1, ind, -1):
+        if numbers[ind] < numbers[i]:
+            change_target = i
             break
-    for num in numbers[:cursor]+newNumbers:
-        print(num, end=' ')
+    numbers[ind], numbers[change_target] = numbers[change_target], numbers[ind]
+    numbers[ind+1:] = list(sorted(numbers[ind+1:]))
+    print(*numbers)
+

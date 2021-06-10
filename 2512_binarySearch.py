@@ -13,20 +13,17 @@ def computeTotal(prices, limit):
     return total
 
 
-def binarySearch(start, end, prices):
-    mid = (start+end)//2
-
-    if start == mid:
-        return min(start, max(prices))
-
-    total = computeTotal(prices, mid)
-    if total > money:
-        return binarySearch(start, mid, prices)
-    elif total == money:
-        return mid
-    else:
-        return binarySearch(mid, end, prices)
+def binarySearch(start, end, money, prices):
+    while True:
+        mid = (start + end) // 2
+        total = computeTotal(prices, mid)
+        if total > money:
+            end = mid -1
+        elif total == money or mid == end:
+            return mid
+        else:
+            start = mid +1
 
 
-
-print(binarySearch(1, money+1, prices))
+maxi = max(prices)
+print(binarySearch(0, maxi, money, prices))
