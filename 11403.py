@@ -1,42 +1,23 @@
 import sys
 input = sys.stdin.readline
-from collections import deque
 
 
 def main():
     n = int(input())
-    table = [[0 for _ in range(n)] for _ in range(n)]
-    lookingForQ = deque()
-
-    for i in range(n):
+    table = []
+    for _ in range(n):
         line = list(map(int, input().rstrip().split()))
-        for j, el in enumerate(line):
-            table[i][j] = el
-            if el == 0:
-                lookingForQ.append((i,j))
+        table.append(line)
 
-    doingUpdate = True
-    while doingUpdate and lookingForQ:
-        doingUpdate = False
-        thisTurnQ = lookingForQ.copy()
-        lookingForQ.clear()
-        while thisTurnQ:
-            node = thisTurnQ.popleft()
-            possiblePath = []
-            for ind, el in enumerate(table[node[0]]):
-                if el == 1:
-                    possiblePath.append(ind)
-            for pp in possiblePath:
-                if table[pp][node[1]] == 1:
-                    table[node[0]][node[1]] = 1
-                    doingUpdate = True
-                    break
-            else:
-                lookingForQ.append(node)
+    # 0부터 n까지 거쳐갈 노드 순회
+    for interNode in range(n):
+        for start in range(n):
+            for end in range(n):
+                if table[start][end] == 0 and table[start][interNode] + table[interNode][end] > 1:
+                    table[start][end] = 1
+
     for t in table:
         print(*t)
-
-
 
 
 main()
