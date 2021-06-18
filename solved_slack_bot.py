@@ -1,52 +1,65 @@
 import json
+
 import requests
 from bs4 import BeautifulSoup
-from selenium import webdriver
+from datetime import datetime, timedelta
 
 def crawlFromSolved():
-    # chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument('headless')
-    # chrome_options.add_argument('--disable-gpu')
-    # chrome_options.add_argument('lang=ko_KR')
-    # driver = webdriver.Chrome('C:\chromeDriver/chromedriver.exe', options=chrome_options)
-    # 로그인
-    driver = webdriver.Chrome('C:\chromeDriver/chromedriver.exe')
-    link = "https://www.acmicpc.net/login?next=%2Flogin%3Fnext%3D%252Fsso%253Fsso%253Dbm9uY2U9ZDExZGFiZDA1OWFkMjkyZWUwMGE5OWJkNzBiMWYzMzU%25253D%2526sig%253D567d3adcdcb2b9b090ecf8bf86c5ecb9db77d29e5d3d15ec8b2370791d259dd0%2526redirect%253Dhttps%25253A%25252F%25252Fsolved.ac%25252Fsignin%25252Fv2%25252Fsso"
-    driver.get(link)
+    url = 'https://solved.ac/problems/level/9?sort=solved&direction=desc&page=1'
 
-    driver.find_element_by_name("login_user_id").send_keys('twinklesu')
-    driver.find_element_by_name("login_password").send_keys('')
-    driver.find_element_by_id("submit_button").click()
-    driver.implicitly_wait(40000)
-    # 문제 갱신
-    link = "https://solved.ac/profile/twinklesu14"
-    driver.get(link)
-    driver.implicitly_wait(20000)
-    refresh = driver.find_element_by_xpath('/html/body/div[1]/div[4]/div[9]/a')
-    refresh.click()
-    driver.implicitly_wait(40000)
-    driver.close()
-
-
-
-
-
+    req = requests.get(url)
+    if req.status_code == 200:
+        start_numbers = int(input("시작 번호 입력"))
+        count = 0
+        eight_q = []
+        html = req.text
+        bs = BeautifulSoup(html, 'html.parser')
+        a = bs.select('a.ProblemInline__ProblemStyle-cvf1lm-0.ivEtZs')
+        for aa in a:
+            span = aa.select_one('span')
+            num = span.get_text()
+            if int(num) == start_numbers:
+                count = 1
+            if 0 < count <= 9:
+                eight_q.append(num)
+                count += 1
+            if count == 9:
+                sendingSlack(eight_q)
+                break
+        else:
+            print("다음 페이지")
+    else:
+        print("http error")
 
 
-def sendingSlack():
-    slack_token = "xoxb-1931072743267-2166615551607-hsKcEehGyA0mPE1d82RO8gcw"
+def sendingSlack(questions: list):
+    monday = datetime.today()
+    sunday = monday + timedelta(days=6)
+    monday = monday.strftime('%m/%d')
+    sunday = sunday.strftime('%m/%d')
+
+
+    slack_token = "xoxb-1931072743267-2166615551607-YAyQee5iAgldno9JLTyLW1M8"
     channel_id = "C01TRE6GBQ9"
 
-    message = "slack bot test"
+    message = "👩🏻‍💻" + monday + "~" + sunday + "👩🏻‍💻\n"
+    message += str(questions)[1:-1].replace('\'', '')
+    print(message)
 
-    data = {'Content-Type': 'application/x-www-from-urlencoded',
-            'token': slack_token,
+    headers = {
+        "Content-type": "application/json",
+        'Authorization': 'Bearer ' + slack_token
+    }
+
+    payload = {
             'channel': channel_id,
-            'text': message
+            'text': "Subin test bot"
             }
 
     URL = 	"https://slack.com/api/chat.postMessage"
-    res = requests.post(URL, data=data)
+    res = requests.post(URL, headers=headers, data=json.dumps(payload))
+
+    print(res.status_code)
 
 
 crawlFromSolved()
