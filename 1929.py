@@ -9,6 +9,10 @@ for i in range(2, sqrtN+1):
             sieve[j] = False
 
 
-for isPrime, num in zip(sieve[2:], range(2, n+1)):
-    if num >= m and isPrime:
+# for isPrime, num in zip(sieve[2:], range(2, n+1)):
+#     if num >= m and isPrime:
+#         print(num)
+
+for isPrime, num in zip(sieve[m:], range(m, n+1)):
+    if isPrime:
         print(num)
