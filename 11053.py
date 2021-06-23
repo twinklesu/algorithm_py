@@ -1,30 +1,20 @@
-n = int(input())
-numbers = list(map(int, input().split()))
+def solution(n, arr):
+    dp = [0 for _ in range(n)]
+    dp[0] = 1
+    for i in range(1, n):
+        for j in range(i):
+            if arr[j] < arr[i] and dp[j] > dp[i]:
+                dp[i] = dp[j]
+        dp[i] += 1 # 이전의 것에다 +1 이거나, 0에다 +1
+    return(max(dp))
 
-def solution(n,arr):
-    result = [0 for _ in range(n+1)]
-    maxlen = 0
-
-    for n in arr:
-        for j in range(maxlen,-1,-1):
-            if result[j] < n:
-                if j == maxlen:
-                    maxlen = maxlen + 1
-                    result[maxlen] = n
-                else:
-                    result[j+1] = min(result[j+1],n)
-                break
-
-
-
-
-    return maxlen
 
 
 
 def main():
-    n = int(input())
-    arr = list(map(int,input().split()))
-    print(solution(n,arr))
+    n = int(input().rstrip())
+    arr = list(map(int, input().split()))
+    print(solution(n, arr))
+
 
 main()
