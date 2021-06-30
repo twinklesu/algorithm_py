@@ -6,7 +6,7 @@ for i in range(n):
     dp[i] = numbers[i]
     for j in range(i):
         if numbers[i] > numbers[j]:
-            if dp[i] < dp[j] + numbers[i]:
+            if dp[i] < dp[j] + numbers[i]: # max(dp[i], dp[j]+numbers[i])
                 dp[i] = dp[j] + numbers[i]
 
 print(max(dp))
