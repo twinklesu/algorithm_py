@@ -11,22 +11,23 @@ def solution():
     i = int(input())
     start = list(map(int, input().rstrip().split()))
     end = list(map(int, input().rstrip().split()))
-    visited = [[False for _ in range(i)] for _ in range(i)]
+    visited = [[0 for _ in range(i)] for _ in range(i)]
 
     # bfs
     q = deque()
-    q.append(start + [0])
+    q.append(start)
     while q:
         temp = q.popleft()
-        x, y, count = map(int, temp)
+        x, y = map(int, temp)
         if [x,y] == end:
-            return count
-        visited[x][y] = True
+            return visited[x][y]
+        count = visited[x][y]
         for ind in range(8):
             newX = x+dx[ind]
             newY = y+dy[ind]
-            if 0<=newX<i and 0<=newY<i and not visited[newX][newY] and [newX, newY] not in q:
-                q.append([newX, newY, count+1])
+            if 0<=newX<i and 0<=newY<i and visited[newX][newY] == 0:
+                visited[newX][newY] = count + 1 # 여기서 visited 계산하는게 더 빠름
+                q.append([newX, newY])
 
 
 

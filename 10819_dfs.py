@@ -1,14 +1,15 @@
-from collections import deque
-
-def dfs(lenPermu, summed, nums, n, permu):
+def dfs(lenPermu, nums, n, permu):
     global maxSum
     if lenPermu == n:
-        maxSum = max(summed, maxSum)
+        summed = 0
+        for i in range(n-1):
+            summed += abs(permu[i]-permu[i+1])
+        maxSum = max(maxSum, summed)
         return
     lenPermu += 1
     for num in nums:
         if num not in permu:
-            dfs(lenPermu, summed+num, nums, n, permu+[num])
+            dfs(lenPermu, nums, n, permu+[num])
 
 
 
@@ -17,7 +18,7 @@ def main():
     n = int(input())
     nums = list(map(int, input().split()))
     maxSum = 0
-    dfs(0, 0, nums, n, [])
+    dfs(0, nums, n, [])
     print(maxSum)
 
 
