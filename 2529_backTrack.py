@@ -1,8 +1,3 @@
-n = int(input())
-brackets = list(map(str, input().split()))
-
-minAns = 10**(n+1)
-maxAns = 0
 def backTrack(ind, ans, n):
     global minAns, maxAns
     if ind == n:
@@ -17,9 +12,18 @@ def backTrack(ind, ans, n):
             elif bra == "<" and ans[-1] < i:
                 backTrack(ind+1, ans+[i], n)
 
+n= int(input())
+brackets = list(map(str, input().split()))
+
+minAns = 10**(n+1)
+maxAns = 0
+
 
 for i in range(10):
-    backTrack(1, [i], n)
+    backTrack(0, [i], n)
 
 print(maxAns)
-print('0', minAns)
+if len(str(minAns)) == n+1:
+    print(minAns)
+else:
+    print('0', minAns, sep='')

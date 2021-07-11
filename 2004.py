@@ -1,8 +1,7 @@
 n, m = map(int, input().split())
 
 nFive = n//5
-countFive = [1]*(nFive+1)
-countFive[0] = 0
+countFive = list(range(nFive+1))
 five = 5
 while five <= nFive:
     for i in range(five, nFive+1, five):
@@ -13,8 +12,8 @@ mFive = m//5
 t = n-m
 tFive = t//5
 
-zeroN = sum(countFive)
-zeroM = sum(countFive[:mFive+1])
-zeroT = sum(countFive[:tFive+1])
+zeroN = countFive[-1]
+zeroM = countFive[mFive]
+zeroT = countFive[tFive]
 
 print(zeroN-zeroM-zeroT)
