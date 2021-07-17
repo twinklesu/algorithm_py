@@ -2,7 +2,7 @@ def dfs(numbers:list, perm: list, n:int, lenPerm:int):
     global maxAns
     if lenPerm == n:
         ans = 0
-        beforeNum = numbers[0]
+        beforeNum = numbers[perm[0]]
         for i in perm[1:]:
             ans += abs(beforeNum-numbers[i])
             beforeNum = numbers[i]
