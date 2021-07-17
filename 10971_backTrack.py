@@ -1,4 +1,4 @@
-import sys
+import sys, copy
 input = sys.stdin.readline
 
 
@@ -14,10 +14,10 @@ def dfs(costMatrix:list, cost: int, path: list, lenPath: int, n: int, fromCity: 
     for i in range(n):
         if i not in path:
             movingCost = costMatrix[fromCity][i]
-            if movingCost != 0:
-                costMatrix[fromCity][i] = 0
-                dfs(costMatrix, cost + movingCost, path+[i], lenPath, n, i)
-                costMatrix[fromCity][i] = movingCost
+            newCost = cost + movingCost
+            if movingCost != 0 and newCost < minCost:
+                dfs(costMatrix, newCost, path+[i], lenPath, n, i)
+
 
 
 def main():
