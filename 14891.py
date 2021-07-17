@@ -1,7 +1,7 @@
 from collections import deque
 
 
-wheel =  [deque(map(int, input())) for _ in range(4)]
+wheel = [deque(map(int, input())) for _ in range(4)]
 wheel = [None] + wheel
 t = int(input())
 for _ in range(t):

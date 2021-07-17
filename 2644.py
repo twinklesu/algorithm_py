@@ -1,56 +1,27 @@
-import sys
-input = sys.stdin.readline
-from collections import defaultdict
+from collections import defaultdict, deque
+
+# 트리가 아니라 양방향 그래프로 생각. 아무튼 찾아가기만 하면 되니까
 
 
-def dfs(parent: int, child: int, count: int, parentToChild: defaultdict, visited: list):
+def dfs(relation: dict, count: int, a: int, b: int):
     global globalCount
-    if parent == child:
+    if a == b:
         globalCount = count
         return
-    for c in parentToChild[parent]:
-        if not visited[c]:
-            visited[c] = True
-            dfs(c, child, count+1, parentToChild, visited)
+    if a in relation:
+        nextNodes = relation.pop(a)
+        for nn in nextNodes:
+            dfs(relation, count+1, nn, b)
 
 
-def main():
-    global globalCount
-    globalCount = 0
-
-    n = int(input())
-    one, two = map(int, input().split())
-    m = int(input())
-    parentToChild = defaultdict(list)
-    childToParent = dict()
-    for _ in range(m):
-        parent, child = map(int, input().split())
-        parentToChild[parent].append(child)
-        childToParent[child] = parent
-    # one 의 자식에 two가 있는지
-    visited = [False for _ in range(n+1)]
-    visited[0] = True
-    visited[one] = True
-    dfs(one, two, 0, parentToChild, visited)
-    if globalCount != 0:
-        print(globalCount)
-        return
-    # two 부터 root으로 가면서 자식에 one이 있는지. visited 확인
-    visited = [False for _ in range(n+1)]
-    visited[0] = True
-    countUpFromTwo = 0
-    while globalCount == 0:
-        visited[two] = True
-        dfs(two, one, countUpFromTwo, parentToChild, visited)
-        if two in childToParent:
-            two = childToParent[two] # 부모로 올라감
-            countUpFromTwo += 1 # 1촌 올려서 시작
-        else:
-            break
-    if globalCount != 0:
-        print(globalCount)
-    else:
-        print(-1)
-
-
-main()
+n = int(input())
+a, b = map(int, input().split())
+m = int(input())
+relation = defaultdict(list)
+for _ in range(m):
+    p, q = map(int, input().split())
+    relation[p].append(q)
+    relation[q].append(p)
+globalCount = -1
+dfs(relation, 0, a, b)
+print(globalCount)

@@ -2,13 +2,15 @@ def dfs(numbers:list, perm: list, n:int, lenPerm:int):
     global maxAns
     if lenPerm == n:
         ans = 0
-        for i in range(1, n):
-            ans += abs(perm[i-1]-perm[i])
+        beforeNum = numbers[0]
+        for i in perm[1:]:
+            ans += abs(beforeNum-numbers[i])
+            beforeNum = numbers[i]
         maxAns = max(maxAns, ans)
     lenPerm += 1
-    for num in numbers:
-        if num not in perm:
-            dfs(numbers, perm+[num], n, lenPerm)
+    for ind in range(n):
+        if ind not in perm:
+            dfs(numbers, perm+[ind], n, lenPerm)
 
 def main():
     global maxAns
