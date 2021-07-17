@@ -1,19 +1,13 @@
+def howManyIn(n, k):
+    count = 0
+    division = k
+    while n >= division:
+        count += n//division
+        division *= k
+    return count
+
+
 n, m = map(int, input().split())
-
-nFive = n//5
-countFive = list(range(nFive+1))
-five = 5
-while five <= nFive:
-    for i in range(five, nFive+1, five):
-        countFive[i] += 1
-    five *= 5
-
-mFive = m//5
-t = n-m
-tFive = t//5
-
-zeroN = countFive[-1]
-zeroM = countFive[mFive]
-zeroT = countFive[tFive]
-
-print(zeroN-zeroM-zeroT)
+two = howManyIn(n, 2) - howManyIn(m,2) - howManyIn(n-m,2)
+five = howManyIn(n, 5) - howManyIn(m,5) - howManyIn(n-m,5)
+print(min(two, five))
