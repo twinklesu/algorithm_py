@@ -23,7 +23,7 @@ def main():
                 q.append((i, j))  # bfs 위한 큐
                 waterVisited[i][j] = 1
                 sVisited[i][j] = 1  # 어차피 고슴도치는 물 있는 곳 못가
-            elif forest[j] == 'X':  # 어차피 비버집도 물이 접근 못함
+            elif forest[j] == 'X':
                 waterVisited[i][j] = 1  # 물 접근 못하니까 이미 방문한걸로
                 sVisited[i][j] = 1  # 고슴도치도 돌에 접근 못함
 

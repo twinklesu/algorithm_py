@@ -3,7 +3,7 @@ import sys
 input = sys.stdin.readline
 
 
-def dfs(tree:dict, key:int, n:int):
+def bfs(tree:dict, key:int, n:int):
     stack = deque()
     stack.append(key)
     count = 0
