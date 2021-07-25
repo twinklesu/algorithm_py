@@ -1,80 +1,31 @@
-#t = int(input())
-#
-#for _ in range(t):
-#    p = input().rstrip()
-#    n = int(input())
-#    li = input().rstrip()
-#    li = list(map(int, li[1:-1].split(",")))
-#    error = False
-#    reverse = False
-#    front = 0
-#    rear = n
-#    length = n
-#    for o in p:
-#        if o =='R':
-#            reverse = not reverse
-#        elif length !=0:
-#            length -=1
-#            if reverse:
-#                rear -=1
-#            else:
-#                front +=1
-#        else:
-#            error = True
-#            break
-#    if error:
-#        print("error")
-#    elif reverse == True:
-#        temp = li[front:rear]
-#        temp.reverse()
-#        print(temp)
-#    else:
-#        print(li[front:rear])
+from collections import deque
 
-def ac(p, n, li):
-    reverse = False
-    front = 0
-    back = len(li)-1
-    for i in p:
-        if i is "R":
-            reverse = not reverse
-        else:
-            if front -1 == back:
-                return "error"
-            elif reverse:
-                back -=1
-            else:
-                front +=1
-    if reverse:
-        result = "["
-        for a in range(back, front, -1):
-            result += str(li[a])
-            result += ","
-        result += str(li[front])
-        result +="]"
-        return result
-    else:
-        result = "["
-        for a in range(front, back):
-            result += str(li[a])
-            result +=","
-        result += str(li[back])
-        result += "]"
-        return result
-    
-    
+
 t = int(input())
 for _ in range(t):
-    p = input().rstrip()
+    order = input().replace("RR", "")
     n = int(input())
-    text = input().rstrip()
-    if text == "[]":
-        li = []
+    arr = list(map(str, input()[1:-1].split(',')))
+    if n == 0 and 'D' in order:
+        print("error")
+        continue
+    q = deque(arr)
+    head = True # 0이 head
+    for o in order:
+        if o == 'R':
+            head = not head
+        elif o == 'D':
+            if not q:
+                print("error")
+                break
+            elif head:
+                q.popleft()
+            else:
+                q.pop()
     else:
-        li = list(map(int, li[1,-1].split(",")))
-    print(ac(p, n, li))
-    
-    
 
-
-
+        if head:
+            print("[" + ','.join(q) + "]")
+        else:
+            q.reverse()
+            print("[" + ','.join(q) + ']')
