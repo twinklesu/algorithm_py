@@ -1,15 +1,15 @@
 from collections import deque
 
 n, m = map(int, input().split())
-field = [list(map(str, input())) for _ in range(m)]
+field = [list(map(str, input())) for _ in range(n)]
 
 sheep = set()
 wolves = set()
 space = []
 dx = [0,0,-1,1]
 dy = [1,-1,0,0]
-for i in range(1, m-1):
-    for j in range(1, n-1): # 어차피 맨 끝은 범위로 생각 안함
+for i in range(1, n-1):
+    for j in range(1, m-1): # 어차피 맨 끝은 범위로 생각 안함
         if field[i][j] == 'o':
             sheep.add((i,j))
         elif field[i][j] == 'v':
@@ -28,7 +28,7 @@ for i in range(1, m-1):
                     newX = x+dx[k]
                     newY = y+dy[k]
                     if field[newX][newY] != '#': # 늑대랑 양도 영역으로 세야하니까
-                        if 1<=newX<m-1 and 1<=newY<n-1:
+                        if 1<=newX<n-1 and 1<=newY<m-1:
                             if field[newX][newY] == 'o':
                                 sheep.add((newX, newY))
                             elif field[newX][newY] == 'v':
