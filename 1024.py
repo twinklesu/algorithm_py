@@ -1,18 +1,16 @@
-def adding(a,b):
-    return b*(b+1)//2 - a*(a-1)//2
-
-
+import sys
+input = sys.stdin.readline
 n, l = map(int, input().split())
-start = n//2
-end = start + l -1
-while start >= 0 and end-start<100:
-    if adding(start, end) == n:
-        print(*range(start, end+1))
-        break
-    elif adding(start, end) < n:
-        start -= 1
-    else:
-        start -= 1
-        end -= 1
+
+
+x = n/l - (l-1)/2
+while int(x) != x and int(x) >= 0 and l < 101:
+    l += 1
+    x = n/l - (l-1)/2
+
+
+x = int(x)
+if x >= 0 and l < 101:
+    print(*range(x, x+l))
 else:
     print(-1)
