@@ -9,6 +9,7 @@ ans = set()
 def recursion(numbers: str, length: int, x: int, y: int):
     if length == 6:
         ans.add(numbers)
+        return
     
     for i in range(4):
         newX = x + dx[i]
