@@ -7,8 +7,8 @@ def hanoi(n, a, b, c):  # a 를 c로
 
 
 n = int(input())
-count = 2**n -1
-if count > 20:
+count = 2**n - 1
+if n > 20:
     print(count)
 else:
     print(count)
