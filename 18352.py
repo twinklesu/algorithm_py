@@ -11,8 +11,9 @@ for _ in range(m):
 
 INF = 10**7
 dist = [INF for _ in range(n+1)]
+dist[x] = 0
 q = []
-heappush(q, [x, 0])
+heappush(q, [0, x])
 while q:
     thisNode, thisDist = heappop(q)
     if thisNode in graph:
@@ -20,7 +21,7 @@ while q:
         for nn in nextNodes:
             if dist[nn] > thisDist + 1:
                 dist[nn] = thisDist + 1
-                heappush(q, [nn, dist[nn]])
+                heappush(q, [dist[nn], nn])
 
 flag = True
 for ind, el in enumerate(dist):
