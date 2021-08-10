@@ -1,42 +1,19 @@
-def quad(n, li):
-    if n == 1:
-        return  li[0]
-    else:
-        same = True
-        first = li[0]
-        for l in li:
-            if l != first:
-                same = False
-                break
-        if same:
-            return first
-        
-    a=[]
-    b=[]
-    c=[]
-    d=[]
-    length = len(li)
-    for i in range(length):
-        if i < length//2:
-            if i%n < n//2:
-                a.append(li[i])
-            else:
-                b.append(li[i])
-        else:
-            if i%n < n//2:
-                c.append(li[i])
-            else:
-                d.append(li[i])
-    return "("+ quad(n/2,a) + quad(n/2,b) + quad(n/2,c)+ quad(n/2,d) +")"
-   
-    
+def solution(video: list, n: int, startX, startY):
+    checkUniqueSet = set()
+    for i in range(startX, startX+n):
+        for j in range(startY, startY+n):
+            checkUniqueSet.add(video[i][j])
+    if len(checkUniqueSet) == 1:
+        return str(checkUniqueSet.pop())
+    n//=2
+    return "(" + solution(video, n, startX, startY) + solution(video, n, startX, startY+n) + solution(video, n, startX+n, startY) + solution(video, n, startX+n, startY+n) + ")"
+
+
 n = int(input())
-pic = []
-for _ in range(n):
-    line = input().rstrip()
-    for l in line:
-        pic.append(l)
-    
-res = quad(n,pic)
-print(res)
-        
+video = [[0 for _ in range(n)] for _ in range(n)]
+for i in range(n):
+    line = list(map(int, input()))
+    for j, el in enumerate(line):
+        video[i][j] = el
+
+print(solution(video, n, 0, 0))
