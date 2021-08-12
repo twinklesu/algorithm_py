@@ -1,24 +1,27 @@
 from collections import deque
 from copy import deepcopy
+import sys
+input = sys.stdin.readline
 
 
 n, m = map(int, input().split())
-mapp = [[1 for _ in range(m)] for _ in range(n)] # 1이면 땅, 0이면 바다
+mapp = set()
 land = deque()
 for i in range(n):
     line = input()
     for j, el in enumerate(line):
         if el == 'L':
-            mapp[i][j] = 0
+            mapp.add((i,j))
             land.append([i,j])
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 # 모든 땅 좌표에 대해 bfs 시행
 ans = 0
+visited = set()
 for x, y in land:
-    thisMap = deepcopy(mapp)
-    thisMap[x][y] = 1 # visited
+    visited.clear()
+    visited.add((x,y)) # visited
     q = deque()
     q.append([x,y,0]) # x, y, depth
     thisCount = 0
@@ -28,8 +31,8 @@ for x, y in land:
         for i in range(4):
             newX = xx + dx[i]
             newY = yy + dy[i]
-            if 0<=newX<n and 0<=newY<m and thisMap[newX][newY] == 0:
-                thisMap[newX][newY] = 1
+            if (newX, newY) not in visited and (newX, newY) in mapp:
+                visited.add((newX, newY))
                 q.append([newX, newY, depth+1])
 
     ans = max(ans, thisCount)
