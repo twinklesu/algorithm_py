@@ -1,8 +1,10 @@
-a,b,c = map(int, input().split())
-base = a
-for _ in range(b):
-    if a >= c:
-        a%=c
-    a*base
+import sys
+input = sys.stdin.readline
 
-print(a)
+a,b,c = map(int, input().split())
+
+ans = 1
+for _ in range(b):
+    ans*=a
+    ans%=c
+print(ans)
