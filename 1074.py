@@ -18,24 +18,25 @@ def solution(n: int, r: int, c: int):
             else:
                 ans += 3
                 return
-    newN = n-1
-    if r < n:
-        if c < n:
+    n -= 1
+    k = 2**n
+    if r < k:
+        if c < k:
             # 2사분면 / 0
-            return solution(newN, r, c)
+            return solution(n, r, c)
         else:
             # 1사분면 / 1
             ans += 1
-            return solution(newN, r, c-2**newN)
+            return solution(n, r, c-k)
     else:
-        if c < n:
+        if c < k:
             # 3사분면 / 2
             ans += 2
-            return solution(newN, r-2**newN, c)
+            return solution(n, r-k, c)
         else:
             # 4사분면 / 3
             ans += 3
-            return solution(newN, r-2**newN, c-2**newN)
+            return solution(n, r-k, c-k)
 
 
 solution(n, r, c)
