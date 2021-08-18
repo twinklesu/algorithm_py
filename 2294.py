@@ -1,18 +1,22 @@
 import sys
 input = sys.stdin.readline
 
-INF = 10**4+1
 n, k = map(int, input().split())
-dp = [INF for _ in range(k+1)]
+INF = k+1
+prices = [INF for _ in range(k+1)]
 for _ in range(n):
-    dp[int(input())] = 1
+    num = int(input())
+    if num <= k: #. 인덱스 에러 방지
+        prices[num] = 1
 
-for i in range(2, k+1):
-    for j in range(1, i):
-        if dp[j] != 0 and dp[i-j] != 0:
-            dp[i] = min(dp[i], dp[j] + dp[i-j])
+for i in range(1, k+1):
+    for j in range(i):
+        if prices[j]+prices[i-j] < prices[i]:
+            prices[i] = prices[j] + prices[i-j]
 
-if dp[-1] == INF:
+
+if prices[-1] == INF:
     print(-1)
 else:
-    print(dp[-1])
+    print(prices[-1])
+
