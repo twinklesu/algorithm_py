@@ -2,7 +2,6 @@ from collections import defaultdict, deque
 import sys
 input = sys.stdin.readline
 
-
 def dfs(start, v, graph, cost):
     q = deque()
     q.append([start, 0])
@@ -20,9 +19,6 @@ def dfs(start, v, graph, cost):
                     maxIndex = nextNode
                     maxi = distance[nextNode]
     return maxIndex, maxi
-
-
-
 
 v = int(input())
 graph = defaultdict(list)
