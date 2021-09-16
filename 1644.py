@@ -1,8 +1,8 @@
-from math import sqrt, ceil
+from math import sqrt
 
 def shieve(n):
     isPrime = [True for _ in range(n+1)]
-    for i in range(2, ceil(sqrt(n))):
+    for i in range(2, int(sqrt(n))+1):
         if isPrime[i]:
             for j in range(i+i, n+1, i):
                 isPrime[j] = False
