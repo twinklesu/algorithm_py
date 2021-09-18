@@ -16,24 +16,25 @@ for _ in range(t):
         store.append((tuple(map(int, input().split()))))
     end = tuple(map(int, input().split()))
     store = [start] + store + [end]
-    ans = "sad"
+
+
     # 플로이드 워셜
     INF = 1001
     costMatrix = [[INF for _ in range(n+2)] for _ in range(n+2)]
-    for fromm in range(n+2):
-        for dest in range(n+2):
-            # costMatrix[fromm][dest] = min(costMatrix[fromm][dest], distance(store[fromm], store[dest]))
-            if distance(store[fromm], store[dest]) <= 1000:
-                costMatrix[fromm][dest] = 0
+    for i in range(n+2):
+        for j in range(n+2):
+            if distance(store[i], store[j]) <= 1000:
+                costMatrix[i][j] = 0
 
-    for fromm in range(n+2):
-        for dest in range(n+2):
-            for mid in range(n+2):
-                # costMatrix[fromm][dest] = min(costMatrix[fromm][dest], costMatrix[fromm][mid]+costMatrix[mid][dest])
-                if costMatrix[fromm][mid] + costMatrix[mid][dest] <= 1000:
-                    costMatrix[fromm][dest] = 0
-    if costMatrix[0][-1] <= 1000:
-        print("happy")
-    else:
+    for mid in range(n+2):
+        for start in range(n+2):
+            for end in range(n+2):
+                newD = costMatrix[start][mid] + costMatrix[mid][end]
+                if newD <= 1000:
+                    costMatrix[start][end] = 0
+
+    if costMatrix[0][-1] != 0:
         print("sad")
+    else:
+        print("happy")
 
