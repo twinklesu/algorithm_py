@@ -14,8 +14,6 @@ for u in range(1, n+1):
         preToPost[v].append(u)
         postToPre[u].append(v)
         state[u] += 1
-
-
 # 위상정렬
 q = deque()
 for i in range(1, n+1):
