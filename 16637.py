@@ -38,4 +38,3 @@ maxRes = -2**31
 
 dfs(1, numbers[0])
 print(maxRes)
-
