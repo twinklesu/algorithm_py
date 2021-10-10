@@ -2,24 +2,32 @@ from collections import deque
 n, k = map(int, input().split())
 
 INF = 10**5+1
-visited = [0 for _ in range(INF)] # 방문한 횟수
+visited = [[0,0] for _ in range(INF)] # 시간, 방문 횟수
 q = deque()
-q.append([n,0])
-visited[n] += 1
-time = INF
+visited[n][1] += 1
+newQ = deque()
+newQ.append(n)
 
-while q:
-    thisNode, thisTime = q.popleft()
-    nextNodes = [thisNode-1, thisNode+1, thisNode*2]
-    for nn in nextNodes:
-        if nn == k:
-            newTime = thisTime + 1
-            if newTime <= time:
-                visited[nn] += 1
-                time = newTime
-        elif 0 <= nn < INF and visited[nn] == 0:
-            q.append([nn, thisTime+1])
-            visited[nn] += 1
+count = 0
+flag = True
+while newQ and flag:
+    q = newQ.copy()
+    newQ.clear()
+    count += 1
+    while q:
+        thisNode = q.popleft()
+        if thisNode == k:
+            flag = False
+            break
+        nextNodes = [thisNode-1, thisNode+1, thisNode*2]
+        for nn in nextNodes:
+            if 0 <= nn < INF and (visited[nn][1] == 0 or visited[nn][0] == count):
+                if visited[nn][1] == 0:
+                    # 이번턴에도 첫 방문 일 시
+                    newQ.append(nn)
+                visited[nn][1] += visited[thisNode][1]
+                visited[nn][0] = count
 
-print(time)
-print(visited[k])
+
+
+print(*visited[k], sep='\n')
