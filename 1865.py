@@ -28,7 +28,7 @@ for _ in range(tc):
                 if dist[nextNode] > dist[node] + nextCost:
                     dist[nextNode] = dist[node] + nextCost
                     if turn == n-1:
-                        # n-1 에도 변화가 일어나서 여기까지 왔다? 사이클을 돌지 않고도 감소되는 부분이 존재??
+                        # n-1 에도 변화가 일어나서 여기까지 왔다?
                         flag = True
 
     if flag:
