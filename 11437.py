@@ -11,26 +11,31 @@ for _ in range(n-1):
     tree[v].append(u)
 
 # 모든 노드에 대하여, parent 찾기
-parentList = dict()
-visited = [False for _ in range(n+1)] # 0 place holder
+parentList = [[0 for _ in range(16)] for _ in range(n+1)]
+visited = [False for _ in range(n+1)]
+depthList = [0 for _ in range(n+1)]
 
 
-def findParents(thisNode, parents: list):
-    parentList[thisNode] = parents + [thisNode]
-    for nextNode in tree[thisNode]:
+def dfs(node, depth):
+    visited[node] = True
+    depthList[node] = depth
+    for nextNode in tree[node]:
         if not visited[nextNode]:
-            visited[nextNode] = True
-            findParents(nextNode, parents+[thisNode])
+            parentList[nextNode][0] = node
+            dfs(nextNode, depth + 1)
 
 
-visited[1] = True
-findParents(1, [])
+dfs(1, 0)
+for depth in range(1, 17):
+    for node in range(1, n+1):
+        parent = parentList[node][depth-1]
+        parentList[node][depth] = parentList[parent][depth-1]
 
 m = int(input())
 for _ in range(m):
     u, v = map(int, input().split())
-    uParentNum = len(parentList[u])
-    vParentNum = len(parentList[v])
+    uParentNum = depthList[u]
+    vParentNum = depthList[v]
     uPointer, vPointer = -1, -1
     while uParentNum > vParentNum:
         uPointer -= 1
