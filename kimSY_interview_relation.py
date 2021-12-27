@@ -76,7 +76,7 @@ nx.draw_networkx_nodes(G, pos=pos, node_size=sizes, node_color='lightgrey')
 font_path = "C:\Windows\Fonts\malgun.ttf"
 font = font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font)
-nx.draw_networkx_labels(G, pos=pos, edge_labes={}, font_family=rc('font', family=font), font_size=25)
+nx.draw_networkx_labels(G, pos=pos, font_family=rc('font', family=font), font_size=25)
 
 ax = plt.gca()
 plt.show()
