@@ -43,6 +43,28 @@ def insert(intervals, newInterval):
 
 
 
-intervals = [[1,3],[6,9]]
-newInterval = [2,5]
-print(insert(intervals, newInterval))
+intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]]
+newInterval = [4,8]
+# print(insert(intervals, newInterval))
+
+
+from collections import deque
+q = deque()
+intervals.append(newInterval)
+intervals.sort()
+for interval in intervals:
+    q.append(interval)
+answer = []
+while q:
+    first = q.popleft()
+    if q:
+        second = q.popleft()
+        if second[0] <= first[1]:
+            newLi = [first[0], max(first[1], second[1])]
+            q.appendleft(newLi)
+        else:
+            q.appendleft(second)  # 다시 넣어줌
+            answer.append(first)
+    else:
+        answer.append(first)
+print(answer)
